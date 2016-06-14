@@ -1130,7 +1130,15 @@ function getLanguages() {
   if ($returnLangs.Count -gt 1) {
      $returnLangs = Get-Unique -InputObject $returnLangs
   }
-
+  
+  $validLangs = @()
+  foreach($lang in $returnlangs){
+    if($availablelangs -contains $lang){
+        $validLangs += $lang
+    }   
+  }
+  
+  $returnLangs = $validLangs
   return $returnLangs
 
 }
@@ -1169,7 +1177,11 @@ function checkForLanguage() {
 function officeGetExcludedApps() {
     param(
        [Parameter(ValueFromPipelineByPropertyName=$true, Position=0)]
-       [PSObject[]]$OfficeProducts = $NULL
+       [PSObject[]]$OfficeProducts = $NULL,
+
+       [string]$Credentials,
+
+       [string]$computer = $env:COMPUTERNAME
     )
 
     begin {
@@ -1178,27 +1190,87 @@ function officeGetExcludedApps() {
 
         $allExcludeApps = 'Access','Excel','Groove','InfoPath','OneDrive','OneNote','Outlook',
                        'PowerPoint','Publisher','Word'
-        #"SharePointDesigner","Visio", 'Project'
+
+        if ($Credentials) {
+            $regProv = Get-Wmiobject -list "StdRegProv" -namespace root\default -computername $computer -Credential $Credentials  -ErrorAction Stop
+            $os = Get-WMIObject win32_operatingsystem -computername $computer -Credential $Credentials -ErrorAction Stop
+        } 
+        else {
+            $regProv = Get-Wmiobject -list "StdRegProv" -namespace root\default -computername $computer  -ErrorAction Stop
+            $os = Get-WMIObject win32_operatingsystem -computername $computer  -ErrorAction Stop
+        }
     }
 
-    process {
-        $appsToExclude = @() 
+    process{
+        $OfficeVersion = Get-OfficeVersion -ComputerName $computer
+        $OfficeVersion = $OfficeVersion.Version.Split(".")[0]
 
-        foreach ($appName in $allExcludeApps) {
-           [bool]$appInstalled = $false
+        switch($os.OSArchitecture){
+            "32-bit"
+            {
+                $osBitness = '32'
+                $appKeyPath = 'SOFTWARE\Microsoft\Office'
+            }
+            "64-bit"
+            {
+                $osBitness = '64'
+                $appKeyPath = 'SOFTWARE\WOW6432Node\Microsoft\Office'
 
-           foreach ($OfficeProduct in $OfficeProducts) {
-               if ($OfficeProduct.DisplayName.ToLower().Contains($appName.ToLower())) {
-                  $appInstalled = $true
-                  break;
-               }
-           }
-           
-           if (!($appInstalled)) {
-              $appsToExclude += $appName
-           }
+            }
         }
         
+        switch($OfficeVersion){
+            "12"
+            {
+                $bitPath = '12.0'
+                
+            }
+            "14"
+            {
+                $bitPath = '14.0'
+            } 
+        }
+
+        $appKeyPath = Join-Path $appKeyPath $bitPath
+         
+        $appKeys = $regProv.EnumKey($HKLM, $appKeyPath)
+        $appList = $appKeys.sNames
+
+        $appsToExclude = @()
+
+        foreach($appName in $allExcludeApps){
+            [bool]$appInstalled = $false
+
+            foreach ($OfficeProduct in $appList){
+                if($OfficeProduct.ToLower() -like $appName.ToLower()){
+                    if($OfficeProduct -eq "OneNote"){
+                        $onRegPath = Join-Path $appKeyPath $OfficeProduct
+                        $onInstallKey = $regProv.EnumKey($HKLM, $onRegPath)
+                        $onRegKeys = $onInstallKey.sNames
+                        foreach($key in $onRegKeys){
+                            if($key -like "InstallRoot"){
+                                $onInstallRegKey = Join-Path $onRegPath "InstallRoot"
+                                $installRoot = $regProv.GetStringValue($HKLM, $onInstallRegKey, "Path").sValue
+                                $pathChk = Test-Path -Path $installRoot
+                                if($pathChk){
+                                    $appInstalled = $true
+                                    break;
+                                }
+                            }
+                        }              
+                    }
+                    else{
+                        $appInstalled = $true
+                        break;
+                    }
+                }
+            }
+
+            if(!($appInstalled)){
+                $appsToExclude += $appName
+            }
+        }
+            
         return $appsToExclude;
     }
 }
