@@ -27,7 +27,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 ###Downloading the source files from the CDN
 
-1. Run **Download-CMOOfficeChannelFiles** this function will download all the source files from the CDN.
+1. Run **Download-CMOOfficeChannelFiles**. This function will download all the source files from the CDN.
      The available parameters with the function are as follows.
 	* a. **-Channels** This parameter defines what channels to download. If it is not specified all channels will be downloaded. The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
 	* b. **-OfficeFilesPath** The location to download the source files into.
@@ -37,7 +37,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 ###Create the Office ProPlus Package
 
-1. Run **Create-CMOfficePackage** this function creates the package and associated package share
+1. Run **Create-CMOfficePackage**. This function creates the package and associated package share
      The available parameters with the function are as follows.
 	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
 	* b. **OfficeSourceFilesPath** The location the source files are located
