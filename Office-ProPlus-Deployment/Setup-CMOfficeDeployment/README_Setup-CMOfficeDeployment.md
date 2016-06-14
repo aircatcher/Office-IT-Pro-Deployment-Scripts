@@ -29,11 +29,11 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 1. Run **Download-CMOOfficeChannelFiles**. This function will download all the source files from the CDN.
      The available parameters with the function are as follows.
-	* a. **-Channels** This parameter defines what channels to download. If it is not specified all channels will be downloaded. The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
-	* b. **-OfficeFilesPath** The location to download the source files into.
-	* c. **-Languages** Uses the ll-cc office codes found [Here](https://technet.microsoft.com/en-us/library/cc179219.aspx) 
-	* d. **-Bitness**  Left blank it will download both versions into source. Options are **v32, v64, Both**
-	* e. **-Version** You can specify a version to download. Versions and the associated channels can be found [Here](https://technet.microsoft.com/en-us/library/mt592918.aspx)
+	* a. **Channels** This parameter defines what channels to download. If it is not specified all channels will be downloaded. The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
+	* b. **OfficeFilesPath** The location to download the source files into.
+	* c. **Languages** Uses the ll-cc office codes found [Here](https://technet.microsoft.com/en-us/library/cc179219.aspx) 
+	* d. **Bitness**  Left blank it will download both versions into source. Options are **v32, v64, Both**
+	* e. **Version** You can specify a version to download. Versions and the associated channels can be found [Here](https://technet.microsoft.com/en-us/library/mt592918.aspx)
 	
 
 			Example: Download-CMOfficeChannels -Channels Deferred,FirstReleaseDeferred -OfficeFilesPath D:\OfficeChannels -Languages en-us,es-es,de-de -Bitness v32
