@@ -61,7 +61,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* b. **OfficeSourceFilesPath** The location the source files are located
 	* c. **MoveSourceFiles** Moves the source files to the new package share vs copying
 	
-
+			Example: Update-CMOfficePackage -Channels FirstReleaseDeferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true
 
 
 
