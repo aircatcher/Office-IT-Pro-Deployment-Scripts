@@ -1,11 +1,4 @@
-[CmdletBinding(SupportsShouldProcess=$true)]
-param(
-    [string[]]$ComputerName = $env:COMPUTERNAME,
-    [switch]$ShowAllInstalledProducts,
-    [System.Management.Automation.PSCredential]$Credentials
-)
-
-Function Get-OfficeVersion {
+ï»¿Function Get-OfficeVersion {
 <#
 .Synopsis
 Gets the Office Version installed on the computer
@@ -58,7 +51,7 @@ begin {
 
     $defaultDisplaySet = 'DisplayName','Version', 'ComputerName'
 
-    $defaultDisplayPropertySet = New-Object System.Management.Automation.PSPropertySet(‘DefaultDisplayPropertySet’,[string[]]$defaultDisplaySet)
+    $defaultDisplayPropertySet = New-Object System.Management.Automation.PSPropertySet(â€˜DefaultDisplayPropertySetâ€™,[string[]]$defaultDisplaySet)
     $PSStandardMembers = [System.Management.Automation.PSMemberInfo[]]@($defaultDisplayPropertySet)
 }
 
@@ -301,8 +294,96 @@ process {
 
 }
 
-if ($ShowAllInstalledProducts) {
-    Get-OfficeVersion -ComputerName $ComputerName -ShowAllInstalledProducts -Credentials $Credentials
-} else {
-    Get-OfficeVersion -ComputerName $ComputerName -Credentials $Credentials
+Function Remove-PreviousOfficeInstalls{
+  [CmdletBinding(SupportsShouldProcess=$true)]
+  param(
+
+  )
+
+  Process {
+    $c2rVBS = "OffScrubc2r.vbs"
+    $03VBS = "OffScrub03.vbs"
+    $07VBS = "OffScrub07.vbs"
+    $10VBS = "OffScrub10.vbs"
+    $15MSIVBS = "OffScrub_O15msi.vbs"
+    $16MSIVBS = "OffScrub_O16msi.vbs"
+
+    #$scriptroot = GetScriptRoot
+
+    $officeVersions = Get-OfficeVersion | select *
+    $ActionFiles = @()
+
+    foreach ($officeVersion in $officeVersions) {
+        if($officeVersion.ClicktoRun.ToLower() -ne "true"){
+            #Set script file based on office version, if no office detected continue to next computer skipping this one.
+            switch -wildcard ($officeVersion.Version)
+            {
+                "11.*"
+                {
+                    $ActionFiles += "$scriptPath\$03VBS"
+                }
+                "12.*"
+                {
+                    $ActionFiles += "$scriptPath\$07VBS"
+                }
+                "14.*"
+                {
+                    $ActionFiles += "$scriptPath\$10VBS"
+                }
+                "15.*"
+                {
+                    $ActionFiles += "$scriptPath\$15MSIVBS"
+                }
+                default 
+                {
+                    continue
+                }
+            }
+        }
+    }
+
+    foreach ($ActionFile in $ActionFiles) {
+      Write-Host "Removing Office products..."
+
+      if (Test-Path -Path $ActionFile) {
+          wscript $ActionFiles
+
+          Do{
+            Start-Sleep -Seconds 5
+            $cscriptProcess = Get-Process cscript -ErrorAction SilentlyContinue
+          }
+          Until($cscriptProcess -eq $null)
+
+          Start-Sleep -Seconds 10
+
+          $wscriptProc = Get-Process wscript -ErrorAction SilentlyContinue
+          if($wscriptProc){
+            Stop-Process -Name wscript
+          }
+          $cmdProc = Get-Process cmd -ErrorAction SilentlyContinue
+          if($cmdproc){
+            Stop-Process -Name cmd
+          }
+
+      } else {
+        throw "Required file missing: $ActionFile"
+      }
+    }
+
+
+  }
+}
+
+Function GetScriptRoot() {
+ process {
+     [string]$scriptPath = "."
+
+     if ($PSScriptRoot) {
+       $scriptPath = $PSScriptRoot
+     } else {
+       $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+       $scriptPath = (Get-Item -Path ".\").FullName
+     }
+     return $scriptPath
+ }
 }

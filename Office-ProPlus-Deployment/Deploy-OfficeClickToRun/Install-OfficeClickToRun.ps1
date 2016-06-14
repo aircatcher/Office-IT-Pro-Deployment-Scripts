@@ -133,7 +133,7 @@ function Install-OfficeClickToRun {
     StartProcess -execFilePath $cmdLine -execParams $cmdArgs -WaitForExit $false
 
     if ($WaitForInstallToFinish) {
-         Wait-ForOfficeCTRInstall
+         Wait-ForOfficeCTRInstall -OfficeVersion $OfficeVersion
     }
 }
 
@@ -326,11 +326,15 @@ Language and Exclude values
                 Add-Member -InputObject $Result -MemberType NoteProperty -Name "ProductId" -Value ($ProductElement.GetAttribute("ID"))
 
                 if($ProductElement.Language -ne $null){
-                    Add-Member -InputObject $Result -MemberType NoteProperty -Name "Languages" -Value ($ProductElement.Language.GetAttribute("ID"))
+                    $ProductLangs = $configfile.Configuration.Add.Product.Language | % {$_.ID}
+                    Add-Member -InputObject $Result -MemberType NoteProperty -Name "Languages" -Value $ProductLangs
+                    #Add-Member -InputObject $Result -MemberType NoteProperty -Name "Languages" -Value ($ProductElement.Language.GetAttribute("ID"))
                 }
 
                 if($ProductElement.ExcludeApp -ne $null){
-                    Add-Member -InputObject $Result -MemberType NoteProperty -Name "ExcludedApps" -Value ($ProductElement.ExcludeApp.GetAttribute("ID"))
+                    $ProductExlApps = $configfile.Configuration.Add.Product.ExcludeApp | % {$_.ID}
+                    Add-Member -InputObject $Result -MemberType NoteProperty -Name "ExcludedApps" -Value $ProductExlApps
+                    #Add-Member -InputObject $Result -MemberType NoteProperty -Name "ExcludedApps" -Value ($ProductElement.ExcludeApp.GetAttribute("ID"))
                 }
                 $Result
             }
@@ -346,11 +350,15 @@ Language and Exclude values
                 $Result = New-Object –TypeName PSObject 
                 Add-Member -InputObject $Result -MemberType NoteProperty -Name "ProductId" -Value $tempId 
                 if($ProductElement.Language -ne $null){
-                    Add-Member -InputObject $Result -MemberType NoteProperty -Name "Languages" -Value ($ProductElement.Language.GetAttribute("ID"))
+                    $ProductLangs = $configfile.Configuration.Add.Product.Language | % {$_.ID}
+                    Add-Member -InputObject $Result -MemberType NoteProperty -Name "Languages" -Value $ProductLangs
+                    #Add-Member -InputObject $Result -MemberType NoteProperty -Name "Languages" -Value ($ProductElement.Language.GetAttribute("ID"))
                 }
 
                 if($ProductElement.ExcludeApp -ne $null){
-                    Add-Member -InputObject $Result -MemberType NoteProperty -Name "ExcludedApps" -Value ($ProductElement.ExcludeApp.GetAttribute("ID"))
+                    $ProductExlApps = $configfile.Configuration.Add.Product.ExcludeApp | % {$_.ID}
+                    Add-Member -InputObject $Result -MemberType NoteProperty -Name "ExcludedApps" -Value $ProductExlApps
+                    #Add-Member -InputObject $Result -MemberType NoteProperty -Name "ExcludedApps" -Value ($ProductElement.ExcludeApp.GetAttribute("ID"))
                 }
                 $Result
                 }
@@ -763,7 +771,10 @@ Function Wait-ForOfficeCTRInstall() {
     [CmdletBinding()]
     Param(
         [Parameter()]
-        [int] $TimeOutInMinutes = 120
+        [int] $TimeOutInMinutes = 120,
+
+        [Parameter(ValueFromPipelineByPropertyName=$true)]
+        [OfficeCTRVersion] $OfficeVersion = "Office2016"
     )
 
     begin {
@@ -776,7 +787,13 @@ Function Wait-ForOfficeCTRInstall() {
 
        Start-Sleep -Seconds 20
 
-       $mainRegPath = Get-OfficeCTRRegPath 
+       if($OfficeVersion -eq 'Office2016'){
+           $mainRegPath = 'SOFTWARE\Microsoft\Office\ClickToRun'
+       }
+       else{
+          $mainRegPath = Get-OfficeCTRRegPath
+       } 
+
        $scenarioPath = $mainRegPath + "\scenario"
 
        $regProv = Get-Wmiobject -list "StdRegProv" -namespace root\default -ErrorAction Stop
@@ -824,9 +841,9 @@ Function Wait-ForOfficeCTRInstall() {
                         }
                     } else {
                         $allComplete = $false
-                        $updateRunning=$true
+                        $updateRunning = $true
 
-                        if (!$trackProgress -contains $keyValue) {
+                        if ($trackProgress -notcontains $keyValue) {
                             $trackProgress += $keyValue 
                             $displayValue
                         }
@@ -846,15 +863,18 @@ Function Wait-ForOfficeCTRInstall() {
            }
 
            Start-Sleep -Seconds 5
-       } while($true -eq $true) 
+       } while($updateRunning -eq $true) 
 
        if ($updateRunning) {
           if ($failure) {
+            Write-host ""
             Write-Host "Update Failed"
           } else {
+            Write-host ""
             Write-Host "Update Complete"
           }
        } else {
+          Write-host ""
           Write-Host "Update Not Running"
        } 
     }
@@ -873,7 +893,6 @@ function showTaskStatus() {
         [string] $DateTime = ""
     )
 
-    $results = new-object PSObject[] 0;
     $Result = New-Object –TypeName PSObject 
     Add-Member -InputObject $Result -MemberType NoteProperty -Name "Operation" -Value $Operation
     Add-Member -InputObject $Result -MemberType NoteProperty -Name "Status" -Value $Status
