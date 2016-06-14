@@ -34,6 +34,9 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* c. **-Languages** Uses the ll-cc office codes found [Here](https://technet.microsoft.com/en-us/library/cc179219.aspx) 
 	* d. **-Bitness**  Left blank it will download both versions into source. Options are **v32, v64, Both**
 	* e. **-Version** You can specify a version to download. Versions and the associated channels can be found [Here](https://technet.microsoft.com/en-us/library/mt592918.aspx)
+	
+
+			Example: Download-CMOfficeChannels -Channels Deferred,FirstReleaseDeferred -OfficeFilesPath D:\OfficeChannels -Languages en-us,es-es,de-de -Bitness v32
 
 ###Create the Office ProPlus Package
 
