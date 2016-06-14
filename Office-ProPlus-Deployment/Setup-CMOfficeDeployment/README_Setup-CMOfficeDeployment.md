@@ -187,7 +187,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* **CustomPackageShareName** Create a custom package share name. Default value is OfficeDeployment.
 	* **UpdateOnlyChangedBits** Used when the package share already exists.
 	* **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site. 
-	* **Bitness**Available options are **v32, v64, Both**. Default value is Both.
+	* **Bitness** Available options are **v32, v64, Both**. Default value is Both.
 	* **CMPSModulePath** Allows the user to specify that full path to the ConfigurationManager.psd1 PowerShell Module. This is especially useful if CM is installed in a non standard path.
 	
 			Example: Create-CMOfficePackage -Channels Deferred -OfficeSourceFilesPath D:\OfficeChanels -MoveSourceFiles $true -SiteCode S01 -Bitness v32
