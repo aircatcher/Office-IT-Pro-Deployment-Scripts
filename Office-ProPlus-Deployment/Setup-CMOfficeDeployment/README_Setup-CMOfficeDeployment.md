@@ -173,7 +173,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* g. **DeploymentPurpose** Default value is Required. Available options are **Default,Required,Available**
 	* h. **CustomName** Default value combines the channel with the platform.
 
-			Example: Deploy-CMOfficeProgram -Collection 'Human Resources' -Channel Deferred -Bitness v32 -SiteCode S01 -DeploymentPurpose Available
+			Example: Deploy-CMOfficeProgram -Collection 'Human Resources' -ProgramType DeployWithConfigurationFile -Channel Deferred -Bitness v32 -SiteCode S01 -DeploymentPurpose Available
 			
 ##Scenarios for creating, updating, and deploying the Office 365 ProPlus programs.
 ###Deploy Office 365 ProPlus
@@ -208,36 +208,70 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 		A deployment will be created and made available to the collection 'Human Resources' that will install the "Deploy Deferred Channel with Config File - 32-Bit" program.
 
 ###Change the channel of an Office 365 client.
+1. Download the channel files from the CDN.
 
-1) Download-CMOOfficeChannelFiles
-2) Create-CMOfficePackage
-3) Create-CMOfficeChannelChangeProgram
-4) Distribute-CMOfficePackage
-5) Deploy-CMOfficeProgram
+		Download-CMOOfficeChannelFiles -Channels FirstReleaseDeferred -Bitness v32 -OfficeFilesPath D:\OfficeChannels
+		
+		The FirstReleaseDeferred 32 bit channel files will be downloaded to D:\OfficeChannels.
+
+2. Create the channel change program.
+
+		Create-CMOfficeChannelChangeProgram -Channels FirstReleaseDeferred
+
+3. Update the package with the new channel files.
+	
+		Update-CMOfficePackage -Channels FirstReleaseDeferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true
+
+		The FirstReleaseDeferred channel files will be moved to OfficeDeployment$ and the cm.contoso.com distribution point will be updated.
+
+4. Create a deployment.
+
+		Deploy-CMOfficeProgram -Collection 'Human Resources' -ProgramType DeployWithConfigurationFile -Channel FirstReleaseDeferred -Bitness v32 -SiteCode S01 -DeploymentPurpose Available
 
 ###Rollback the version of an Office 365 client.
 
-For roll back you need to have the version in source to roll back to.
+1. Download the channel version files.
 
-1) Download-CMOOfficeChannelFiles
-2) Create-CMOfficePackage
-3) Create-CMOfficeRollBackProgram
-4) Distribute-CMOfficePackage
-5) Deploy-CMOfficeProgram
+		Download-CMOOfficeChannelFiles -Channels FirstReleaseDeferred -Version 16.0.6741.2042 -Bitness v32 -OfficeFilesPath D:\OfficeChannels
+
+2. Create the rollback program.
+
+		Create-CMOfficeRollBackProgram
+
+3. Update the package with the new channel version files.
+
+		Update-CMOfficePackage -Channels FirstReleaseDeferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true
+
+4. Create a deployment.
+
+		Deploy-CMOfficeProgram -Collection 'Human Resources' -ProgramType RollBack -Channel FirstReleaseDeferred -Bitness v32 -SiteCode S01 -DeploymentPurpose Available
 
 ###Update an Office 365 ProPlus client
 
-1) Download-CMOOfficeChannelFiles
-2) Create-CMOfficePackage
-3) Create-CMOfficeUpdateProgram
-4) Distribute-CMOfficePackage
-5) Deploy-CMOfficeProgram
+1. Download-CMOOfficeChannelFiles
+
+		Download-CMOOfficeChannelFiles -Channels FirstReleaseDeferred -Bitness v32 -OfficeFilesPath D:\OfficeChannels
+
+2. Create-CMOfficeUpdateProgram
+
+		Create-CMOfficeUpdateProgram -WaitForUpdateToFinish $true -EnableUpdateAnywhere $true -ForceAppShutdown $true -SiteCode S01 -UpdateToVersion 16.0.6741.2047 	
+
+3. Update the package with the new channel version files.
+
+		Update-CMOfficePackage -Channels FirstReleaseDeferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true
+
+4. Create a deployment.
+
+		Deploy-CMOfficeProgram -Collection 'Human Resources' -ProgramType UpdateWithConfigMgr -Channel FirstReleaseDeferred -Bitness v32 -SiteCode S01 -DeploymentPurpose Required
 
 ###Update an Office 365 ProPlus client using a scheduled task.
 
-1) Download-CMOOfficeChannelFiles
-2) Create-CMOfficePackage
-3) Create-CMOfficeUpdateAsTaskProgram
-4) Distribute-CMOfficePackage
-5) Deploy-CMOfficeProgram
+1. Download-CMOOfficeChannelFiles
+
+
+
+2. Create-CMOfficePackage
+3. Create-CMOfficeUpdateAsTaskProgram
+4. Distribute-CMOfficePackage
+5. Deploy-CMOfficeProgram
 
