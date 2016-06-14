@@ -11,7 +11,13 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 1. Download the **Setup-CMOfficeDeployment** folder to your Config Manager Server. 
 2. Load an elevated Powershell session
 3. Change the directory to the **Setup-CMOfficeDeployment** location
-4. From the prompt run **. .\Setup-CMOfficeDeployment.ps1** this dot sources the file and enables all functions and variables to be available in the power shell session.
+4. Dot-Source the script to gain access to the functions inside.
+
+		Type: . .\Setup-CMOfficeDeployment.ps1
+		
+		By including the additional period before the relative script path you are 'Dot-Sourcing' 
+   		the PowerShell function in the script into your PowerShell session which will allow you to 
+   		run the inner functions from the console.
 
 ###Downloading the source files from the CDN
 
