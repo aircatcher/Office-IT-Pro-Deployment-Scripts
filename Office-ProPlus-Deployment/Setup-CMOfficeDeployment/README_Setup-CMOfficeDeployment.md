@@ -29,13 +29,12 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 1. Run **Download-CMOOfficeChannelFiles**. This function will download all the source files from the CDN.
 
 	The available parameters with the function are as follows.
-	* a. **Channels** This parameter defines what channels to download. If it is not specified all channels will be downloaded. The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
-	* b. **OfficeFilesPath** The location to download the source files into.
+	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent** If it is not specified all channels will be downloaded. 
+	* b. **OfficeFilesPath** The location to download the source files.
 	* c. **Languages** Uses the ll-cc office codes found [Here](https://technet.microsoft.com/en-us/library/cc179219.aspx) 
-	* d. **Bitness**  Left blank it will download both versions into source. Options are **v32, v64, Both**
+	* d. **Bitness**  Available options are **v32, v64, Both**. Default value is Both.
 	* e. **Version** You can specify a version to download. Versions and the associated channels can be found [Here](https://technet.microsoft.com/en-us/library/mt592918.aspx)
 	
-
 			Example: Download-CMOfficeChannels -Channels Deferred,FirstReleaseDeferred -OfficeFilesPath D:\OfficeChannels -Languages en-us,es-es,de-de -Bitness v32
 
 ###Create the Office ProPlus package
@@ -46,10 +45,10 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
 	* b. **OfficeSourceFilesPath** The location the source files are located
 	* c. **MoveSourceFiles** Moves the source files to the new package share vs copying
-	* d. **CustomPackageShareName** You can define the name of the package share. Left blank it will default to OfficeDeployment
+	* d. **CustomPackageShareName** Create a custom package share name. Default value is OfficeDeployment.
 	* e. **UpdateOnlyChangedBits** Used when the package share already exists.
 	* f. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site. 
-	* g. **Bitness** Left blank it will create a package with v32. Options are **v32, v64, Both**
+	* g. **Bitness**Available options are **v32, v64, Both**. Default value is Both.
 	* h. **CMPSModulePath** Allows the user to specify that full path to the ConfigurationManager.psd1 PowerShell Module. This is especially useful if CM is installed in a non standard path.
 	
 			Example: Create-CMOfficePackage -Channels Deferred -OfficeSourceFilesPath D:\OfficeChanels -MoveSourceFiles $true -SiteCode S01 -Bitness v32
@@ -71,7 +70,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 	The available parameters with the function are as follows.
 	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent** 
-	* b. **Bitness** Left blank it will create a package with v32. Options are **v32, v64, Both**
+	* b. **Bitness** Available options are **v32, v64, Both**. Default value is Both.
 	* c. **DeploymentType** The available options are **DeployWithScript,DeployWithConfigurationFile**
 	* d. **ScriptName** Default value is **CM-OfficeDeploymentScript.ps1**
 	* e. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site. 
@@ -168,7 +167,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* a. **Collection** The name of the collection to deploy the program to.
 	* b. **ProgramType** The type of program being deployed. Available options are **DeployWithScript,DeployWithConfigurationFile,ChangeChannel,RollBack,UpdateWithConfigMgr,UpdateWithTask** 
 	* c. **Channel** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
-	* d. **Bitness** Default value is v32. Available options are **v32, v64, Both**
+	* d. **Bitness** Available options are **v32, v64, Both**. Default value is Both.
 	* e. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
 	* f. **CMPSModulePath** Default value will use the default location.
 	* g. **DeploymentPurpose** Default value is Required. Available options are **Default,Required,Available**
