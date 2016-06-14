@@ -28,7 +28,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 1. Run **Download-CMOOfficeChannelFiles**. This function will download all the source files from the CDN.
 
-The available parameters with the function are as follows.
+	The available parameters with the function are as follows.
 	* a. **Channels** This parameter defines what channels to download. If it is not specified all channels will be downloaded. The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
 	* b. **OfficeFilesPath** The location to download the source files into.
 	* c. **Languages** Uses the ll-cc office codes found [Here](https://technet.microsoft.com/en-us/library/cc179219.aspx) 
@@ -42,7 +42,7 @@ The available parameters with the function are as follows.
 
 1. Run **Create-CMOfficePackage**. This function creates the package and associated package share
 
-The available parameters with the function are as follows.
+	The available parameters with the function are as follows.
 	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
 	* b. **OfficeSourceFilesPath** The location the source files are located
 	* c. **MoveSourceFiles** Moves the source files to the new package share vs copying
@@ -58,7 +58,7 @@ The available parameters with the function are as follows.
 
 1. To update the Office ProPlus package use **Update-CMOfficePackage**
 
-The available parameters with the function are as follows.
+	The available parameters with the function are as follows.
 	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent** 
 	* b. **OfficeSourceFilesPath** The location the source files are located
 	* c. **MoveSourceFiles** Moves the source files to the new package share vs copying
@@ -69,7 +69,7 @@ The available parameters with the function are as follows.
 ###Create-CMOfficeDeploymentProgram
 1. To create an Office 365 deployment program use **Create-CMOfficeDeploymentProgram**
 
-The available parameters with the function are as follows.
+	The available parameters with the function are as follows.
 	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent** 
 	* b. **Bitness** Left blank it will create a package with v32. Options are **v32, v64, Both**
 	* c. **DeploymentType** The available options are **DeployWithScript,DeployWithConfigurationFile**
@@ -85,7 +85,7 @@ The available parameters with the function are as follows.
 
 1. To create an Office 365 channel change program use **Create-CMOfficeChannelChangeProgram**
 	
-The available parameters with the function are as follows.
+	The available parameters with the function are as follows.
 	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
 	* b. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
 	* c. **CMPSModulePath** Default value will use the default location.
@@ -96,7 +96,7 @@ The available parameters with the function are as follows.
 
 1. To create an Office 365 rollback program use **Create-CMOfficeRollBackProgram**
 	
-The available parameters with the function are as follows.
+	The available parameters with the function are as follows.
 	* a. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
 	* b. **CMPSModulePath** Default value will use the default location.
 
@@ -126,7 +126,7 @@ The available parameters with the function are as follows.
 
 1. To create an Office 365 update program that will run as a task use **Create-CMOfficeUpdateAsTaskProgram**
 	
-The available parameters with the function are as follows.
+	The available parameters with the function are as follows.
 	* a. **WaitForUpdateToFinish** The PowerShell window will remain open until the update has finished. Default value is $true.
 	* b. **EnableUpdateAnywhere** The failback method if the update path is unavailable the client will update from the CDN. Default value is $true.
 	* c. **ForceAppShutdown** Default value is $false.
@@ -150,7 +150,7 @@ The available parameters with the function are as follows.
 
 1. To distribute the Office 365 package use **Distribute-CMOfficePackage**
 	
-The available parameters with the function are as follows.
+	The available parameters with the function are as follows.
 	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
 	* b. **DistributionPoint** The distribution point name. A distribution point or distirbution point group must be specified.
 	* c. **DistributionPointGroupName** The distribution point group name. A distribution point or distirbution point group must be specified.
@@ -164,7 +164,7 @@ The available parameters with the function are as follows.
 
 1. To create an Office 365 deployment use **Deploy-CMOfficeProgram**
 
-The available parameters with the function are as follows.
+	The available parameters with the function are as follows.
 	* a. **Collection** The name of the collection to deploy the program to.
 	* b. **ProgramType** The type of program being deployed. Available options are **DeployWithScript,DeployWithConfigurationFile,ChangeChannel,RollBack,UpdateWithConfigMgr,UpdateWithTask** 
 	* c. **Channel** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
