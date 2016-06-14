@@ -109,7 +109,37 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* l. **UseScriptLocationAsUpdateSource** If not specified the location where the script is ran will be assumed the location of the SourceFiles. Default value is $true.
 
 ###Create-CMOfficeUpdateAsTaskProgram
+
+1. To create an Office 365 update program that will run as a task use **Create-CMOfficeUpdateAsTaskProgram**
+	The available parameters with the function are as follows.
+	* a. **WaitForUpdateToFinish** The PowerShell window will remain open until the update has finished. Default value is $true.
+	* b. **EnableUpdateAnywhere** The failback method if the update path is unavailable the client will update from the CDN. Default value is $true.
+	* c. **ForceAppShutdown** Default value is $false.
+	* d. **UpdatePromptUser** Default value is $false.
+	* e. **DisplayLevel** Default value is $false.
+	* f. **UpdateToVersion** The version to update to. Default value will update to the latest version in the update path.
+	* g. **UseRandomStartTime** Default value is $true.
+	* h. **RandomTimeStart** Default value is 08:00.
+	* i. **RandomTimeEnd** Default value is 17:00.
+	* j. **StartTime** Default value 12:00.
+	* k. **LogPath** The path to the LogName.
+	* l. **LogName** The name of the log files.
+	* m. **ValidateUpdateSourceFiles** Default value is $true.
+	* n. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
+	* o. **CMPSModulePath** Default value will use the default location.
+	* p. **UseScriptLocationAsUpdateSource** If not specified the location where the script is ran will be assumed the location of the SourceFiles. Default value is $true.
+
 ###Distribute-CMOfficePackage
+
+1. To distribute the Office 365 package use **Distribute-CMOfficePackage**
+	The available parameters with the function are as follows.
+	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
+	* b. **DistributionPoint** The distribution point name. A distribution point or distirbution point group must be specified.
+	* c. **DistributionPointGroupName** The distribution point group name. A distribution point or distirbution point group must be specified.
+	* d. **DeploymentExpiryDurationInDays** Default value is 15.
+	* e. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
+	* f. **CMPSModulePath** Default value will use the default location.
+
 ###Deploy-CMOfficeProgram
 
 Scenaro: Install Office
