@@ -9,7 +9,10 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 ###Prepare the environment
 
 1. Download the **Setup-CMOfficeDeployment** folder to your Config Manager Server. 
-2. Load an elevated Powershell session
+2. Open PowerShell as an administrator.
+
+		From the Run dialog type PowerShell, right click it and choose Run as Administrator.
+		
 3. Change the directory to the **Setup-CMOfficeDeployment** location
 4. Dot-Source the script to gain access to the functions inside.
 
