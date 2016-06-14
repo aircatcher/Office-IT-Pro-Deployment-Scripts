@@ -66,47 +66,47 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 ###Create-CMOfficeDeploymentProgram
 
 1. To create an Office 365 deployment program use **Create-CMOfficeDeploymentProgram**
-	The available parameters with the function are as follows.
-	*a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent** 
-	*b. **Bitness** Left blank it will create a package with v32. Options are **v32, v64, Both**
-	*c. **DeploymentType** The available options are **DeployWithScript,DeployWithConfigurationFile**
-	*d. **ScriptName** Default value is **CM-OfficeDeploymentScript.ps1**
-	*e. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site. 
-	*f. **CMPSModulePath** Default value will use the default location.
-	*g. **ConfigurationXml** Default value is **.\DeploymentFiles\DefaultConfiguration.xml**
-	*h. **CustomName** Default value combines the channel with the platform.
+     The available parameters with the function are as follows.
+	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent** 
+	* b. **Bitness** Left blank it will create a package with v32. Options are **v32, v64, Both**
+	* c. **DeploymentType** The available options are **DeployWithScript,DeployWithConfigurationFile**
+	* d. **ScriptName** Default value is **CM-OfficeDeploymentScript.ps1**
+	* e. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site. 
+	* f. **CMPSModulePath** Default value will use the default location.
+	* g. **ConfigurationXml** Default value is **.\DeploymentFiles\DefaultConfiguration.xml**
+	* h. **CustomName** Default value combines the channel with the platform.
 
 ###Create-CMOfficeChannelChangeProgram
 
 1. To create an Office 365 channel change program use **Create-CMOfficeChannelChangeProgram**
 	The available parameters with the function are as follows.
-	*a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
-	*b. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
-	*c. **CMPSModulePath** Default value will use the default location.
+	* a. **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
+	* b. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
+	* c. **CMPSModulePath** Default value will use the default location.
 
 ###Create-CMOfficeRollBackProgram
 
 1. To create an Office 365 rollback program use **Create-CMOfficeRollBackProgram**
 	The available parameters with the function are as follows.
-	*a. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
-	*b. **CMPSModulePath** Default value will use the default location.
+	* a. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
+	* b. **CMPSModulePath** Default value will use the default location.
 
 ###Create-CMOfficeUpdateProgram
 
 1. To create an Office 365 client update program use **Create-CMOfficeUpdateProgram**
 	The available parameters with the function are as follows.
-	*a. **WaitForUpdateToFinish** The PowerShell window will remain open until the update has finished. Default value is $true.
-	*b. **EnableUpdateAnywhere** The failback method if the update path is unavailable the client will update from the CDN. Default value is $true.
-	*c. **ForceAppShutdown** Default value is $false.
-	*d. **UpdatePromptUser** Default value is $false.
-	*e. **DisplayLevel** Default value is $false.
-	*f. **UpdateToVersion** The version to update to. Default value will update to the latest version in the update path.
-	*g. **LogPath** The path to the LogName.
-	*h. **LogName** The name of the log files.
-	*i. **ValidateUpdateSourceFiles** Default value is $true.
-	*j. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
-	*k. **CMPSModulePath** Default value will use the default location.
-	*l. **UseScriptLocationAsUpdateSource** If not specified the location where the script is ran will be assumed the location of the SourceFiles. Default value is $true.
+	* a. **WaitForUpdateToFinish** The PowerShell window will remain open until the update has finished. Default value is $true.
+	* b. **EnableUpdateAnywhere** The failback method if the update path is unavailable the client will update from the CDN. Default value is $true.
+	* c. **ForceAppShutdown** Default value is $false.
+	* d. **UpdatePromptUser** Default value is $false.
+	* e. **DisplayLevel** Default value is $false.
+	* f. **UpdateToVersion** The version to update to. Default value will update to the latest version in the update path.
+	* g. **LogPath** The path to the LogName.
+	* h. **LogName** The name of the log files.
+	* i. **ValidateUpdateSourceFiles** Default value is $true.
+	* j. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
+	* k. **CMPSModulePath** Default value will use the default location.
+	* l. **UseScriptLocationAsUpdateSource** If not specified the location where the script is ran will be assumed the location of the SourceFiles. Default value is $true.
 
 ###Create-CMOfficeUpdateAsTaskProgram
 ###Distribute-CMOfficePackage
