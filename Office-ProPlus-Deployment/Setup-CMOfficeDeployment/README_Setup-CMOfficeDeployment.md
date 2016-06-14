@@ -1,11 +1,10 @@
-# Setup Config Manager Office Deployment
+#Setup Config Manager Office Deployment
 
 This PowerShell function automates the setup of Office 365 Click-To-Run deployment and update scenarios in Config Manager. 
 
 [README](https://github.com/OfficeDev/Office-IT-Pro-Deployment-Scripts/wiki/Readme_Setup-CMOfficeDeployment)
 
-## Creating the Office ProPlus Package
-
+##Creating the Office ProPlus Package
 ###Prepare the environment
 
 1. Download the **Setup-CMOfficeDeployment** folder to your Config Manager Server. 
@@ -53,7 +52,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	
 			Example: Create-CMOfficePackage -Channels Deferred -OfficeSourceFilesPath D:\OfficeChanels -MoveSourceFiles $true -SiteCode S01 -Bitness v32
 
-###Updating the Office ProPlus Package
+##Updating the Office 365 ProPlus package
 
 1. To update the Office ProPlus package use **Update-CMOfficePackage**
      	
@@ -64,6 +63,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	
 			Example: Update-CMOfficePackage -Channels FirstReleaseDeferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true
 
+##Creating Office 365 Client Programs
 ###Create-CMOfficeDeploymentProgram
 
 1. To create an Office 365 deployment program use **Create-CMOfficeDeploymentProgram**
@@ -145,7 +145,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 			Example: Create-CMOfficeUpdateAsTaskProgram -WaitForUpdateToFinish $false -EnableUpdateAnywhere $false -ForceAppShutdown $true -UpdatePromptUser $true -UpdateToVersion 16.0.6001.1078
 			
-###Distribute-CMOfficePackage
+##Distribute the Office 365 ProPlus Package
 
 1. To distribute the Office 365 package use **Distribute-CMOfficePackage**
 	
@@ -159,7 +159,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 			Example: Distribute-CMOfficePackage -Channels Deferred -DistributionPoint cm.contoso.com
 			
-###Deploy-CMOfficeProgram
+##Deploy the Office 365 ProPlus programs
 
 1. To create an Office 365 deployment use **Deploy-CMOfficeProgram**
 
