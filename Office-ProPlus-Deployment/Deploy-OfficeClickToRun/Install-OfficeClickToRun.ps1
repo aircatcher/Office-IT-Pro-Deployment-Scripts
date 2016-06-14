@@ -701,7 +701,7 @@ Here is what the portion of configuration file looks like when modified by this 
         $AddElement = $ConfigFile.Configuration.Add 
 
         #Set the desired values
-        [System.XML.XMLElement]$ProductElement = $ConfigFile.Configuration.Add.Product | ?  ID -eq $ProductId
+        [System.XML.XMLElement]$ProductElement = $ConfigFile.Configuration.Add.Product | Where-Object {$_.ID -eq $ProductId}
         if($ProductElement -eq $null){
            throw "Cannot find Product with Id '$ProductId'"
         }
@@ -733,7 +733,7 @@ Here is what the portion of configuration file looks like when modified by this 
             }
 
             foreach($ExcludeApp in $ExcludeApps){
-                [System.XML.XMLElement]$ExcludeAppElement = $ProductElement.ExcludeApp | ?  ID -eq $ExcludeApp
+                [System.XML.XMLElement]$ExcludeAppElement = $ProductElement.ExcludeApp | Where-Object {$_.ID -eq $ExcludeApp}
                 if($ExcludeAppElement -eq $null){
                     [System.XML.XMLElement]$ExcludeAppElement=$ConfigFile.CreateElement("ExcludeApp")
                     $ProductElement.appendChild($ExcludeAppElement) | Out-Null
