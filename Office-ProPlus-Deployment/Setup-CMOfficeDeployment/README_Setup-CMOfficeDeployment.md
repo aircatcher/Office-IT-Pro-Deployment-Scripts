@@ -50,6 +50,8 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* f. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site. 
 	* g. **Bitness** Left blank it will create a package with v32. Options are **v32, v64, Both**
 	* h. **CMPSModulePath** Allows the user to specify that full path to the ConfigurationManager.psd1 PowerShell Module. This is especially useful if CM is installed in a non standard path.
+	
+			Example: Create-CMOfficePackage -Channels Deferred -OfficeSourceFilesPath D:\OfficeChanels -MoveSourceFiles $true -SiteCode S01 -Bitness v32
 
 ###Updating the Office ProPlus Package
 
