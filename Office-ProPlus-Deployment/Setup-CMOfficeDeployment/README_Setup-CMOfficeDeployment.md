@@ -77,6 +77,8 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* f. **CMPSModulePath** Default value will use the default location.
 	* g. **ConfigurationXml** Default value is **.\DeploymentFiles\DefaultConfiguration.xml**
 	* h. **CustomName** Default value combines the channel with the platform.
+	
+			Example: Create-CMOfficeDeploymentProgram -Channels Deferred,FirstReleaseDeferred -Bitness v32 -DeploymentType DeployWithConfigurationFile -SiteCode S01
 
 ###Create-CMOfficeChannelChangeProgram
 
@@ -87,6 +89,8 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* b. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
 	* c. **CMPSModulePath** Default value will use the default location.
 
+			Example: Create-CMOfficeChannelChangeProgram -Channels Deferred -SiteCode S01
+			
 ###Create-CMOfficeRollBackProgram
 
 1. To create an Office 365 rollback program use **Create-CMOfficeRollBackProgram**
@@ -95,6 +99,8 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* a. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
 	* b. **CMPSModulePath** Default value will use the default location.
 
+			Example: Create-CMOfficeRollBackProgram
+			
 ###Create-CMOfficeUpdateProgram
 
 1. To create an Office 365 client update program use **Create-CMOfficeUpdateProgram**
@@ -113,6 +119,8 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* k. **CMPSModulePath** Default value will use the default location.
 	* l. **UseScriptLocationAsUpdateSource** If not specified the location where the script is ran will be assumed the location of the SourceFiles. Default value is $true.
 
+			Example: Create-CMOfficeUpdateProgram -WaitForUpdateToFinish $true -EnableUpdateAnywhere $true -ForceAppShutdown $true -SiteCode S01
+			
 ###Create-CMOfficeUpdateAsTaskProgram
 
 1. To create an Office 365 update program that will run as a task use **Create-CMOfficeUpdateAsTaskProgram**
@@ -135,6 +143,8 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* o. **CMPSModulePath** Default value will use the default location.
 	* p. **UseScriptLocationAsUpdateSource** If not specified the location where the script is ran will be assumed the location of the SourceFiles. Default value is $true.
 
+			Example: Create-CMOfficeUpdateAsTaskProgram -WaitForUpdateToFinish $false -EnableUpdateAnywhere $false -ForceAppShutdown $true -UpdatePromptUser $true -UpdateToVersion 16.0.6001.1078
+			
 ###Distribute-CMOfficePackage
 
 1. To distribute the Office 365 package use **Distribute-CMOfficePackage**
@@ -147,6 +157,8 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* e. **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
 	* f. **CMPSModulePath** Default value will use the default location.
 
+			Example: Distribute-CMOfficePackage -Channels Deferred -DistributionPoint cm.contoso.com
+			
 ###Deploy-CMOfficeProgram
 
 1. To create an Office 365 deployment use **Deploy-CMOfficeProgram**
@@ -161,7 +173,8 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* g. **DeploymentPurpose** Default value is Required. Available options are **Default,Required,Available**
 	* h. **CustomName** Default value combines the channel with the platform.
 
-
+			Example: Deploy-CMOfficeProgram -Collection 'Human Resources' -Channel Deferred -Bitness v32 -SiteCode S01 -DeploymentPurpose Available
+			
 Scenaro: Install Office
 
 1) Download-CMOOfficeChannelFiles
