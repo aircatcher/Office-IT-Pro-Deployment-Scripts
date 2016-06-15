@@ -211,7 +211,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent** 
 	* **Bitness** Available options are **v32, v64, Both**. Default value is Both.
 	* **DeploymentType** The available options are **DeployWithScript,DeployWithConfigurationFile**
-		* **DeployWithScript** - A PowerShell script will be used to deploy Office ProPlus. The script will generate a configuration.xml file based on the client's current environment. 
+		* **DeployWithScript** - A PowerShell script will be used to deploy Office ProPlus. The script will generate a configuration xml file based on the client's current environment. 
 		* **DeployWithConfigurationFile** - A configuration xml file is created and saved in the package share hosting the deployment files. The configuration file is created when Create-CMOfficeDeploymentProgram is ran.
 	* **ScriptName** The name of the script that will be used to deploy Office 365 ProPlus. Default value is **CM-OfficeDeploymentScript.ps1**
 	* **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site. 
