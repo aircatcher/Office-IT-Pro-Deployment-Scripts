@@ -358,6 +358,7 @@ Function Remove-PreviousOfficeInstalls{
             $cscriptProcess = Get-Process wscript -ErrorAction SilentlyContinue
           }
           Until($cscriptProcess -eq $null)
+
       } else {
         throw "Required file missing: $ActionFile"
       }

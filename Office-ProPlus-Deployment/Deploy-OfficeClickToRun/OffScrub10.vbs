@@ -336,7 +336,20 @@ If Not sMoveMessage = "" Then Log vbCrLf & "Please remove this folder after next
 Log vbCrLf & "End removal: " & Now & vbCrLf
 Log vbCrLf & "For detailed logging please refer to the log in folder " &chr(34)&sScrubDir&chr(34)&vbCrLf
 
-WScript.Quit
+If fRebootRequired Then
+    'Log vbCrLf & "A restart is required to complete the operation!"
+    'If NOT fQuiet Then
+    '    If MsgBox("Do you want to reboot now?",vbYesNo,"Reboot Required") = VB_YES Then
+    '        Dim colOS, oOS
+    '        Dim oWmiReboot
+    '        Set oWmiReboot = GetObject("winmgmts:{impersonationLevel=impersonate,(Shutdown)}!\\.\root\cimv2")
+    '        Set colOS = oWmiReboot.ExecQuery ("Select * from Win32_OperatingSystem")
+    '        For Each oOS in colOS
+    '            oOS.Reboot()
+    '        Next
+    '    End If
+    'End If
+End If
 
 If NOT fQuiet Then
     For Each Item in Wscript.Arguments
@@ -4015,14 +4028,14 @@ Sub RelaunchAsCScript
     Dim sCmdLine
     
     SetError ERROR_RELAUNCH
-    sCmdLine = "cmd.exe /k " & WScript.Path & "\cscript.exe //NOLOGO " & Chr(34) & WScript.scriptFullName & Chr(34)
+    sCmdLine = "cmd.exe /c " & WScript.Path & "\cscript.exe //NOLOGO " & Chr(34) & WScript.scriptFullName & Chr(34)
     If Wscript.Arguments.Count > 0 Then
         For Each Argument in Wscript.Arguments
             sCmdLine = sCmdLine  &  " " & chr(34) & Argument & chr(34)
         Next 'Argument
     End If
     
-    Wscript.Quit CLng(oWShell.Run(sCmdLine,1,True))
+    Wscript.Quit CLng(oWShell.Run(sCmdLine,0,True))
 End Sub 'RelaunchAsCScript
 '=======================================================================================================
 
