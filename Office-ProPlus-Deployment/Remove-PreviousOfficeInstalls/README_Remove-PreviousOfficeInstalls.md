@@ -20,9 +20,13 @@ This PowerShell Script will create remote the local MSI installations of Office 
 
 		Example: cd C:\PowerShellScripts
 		
-2. Run the Script. Script will remove MSI installations of Office 2013 and older
+3. Load the script to make functions in the script available for use.
 
-		Type  .\Remove-PreviousOfficeInstalls.ps1
+		Type  . .\Remove-PreviousOfficeInstalls.ps1
+			
+4. Run the Script. Script will remove MSI installations of Office 2013 and older
+
+		Type  Remove-PreviousOfficeInstalls
 			
 
 	
