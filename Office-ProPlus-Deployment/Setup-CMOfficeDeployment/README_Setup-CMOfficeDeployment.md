@@ -211,11 +211,13 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent** 
 	* **Bitness** Available options are **v32, v64, Both**. Default value is Both.
 	* **DeploymentType** The available options are **DeployWithScript,DeployWithConfigurationFile**
-	* **ScriptName** Default value is **CM-OfficeDeploymentScript.ps1**
+		* **DeployWithScript** - A PowerShell script will be used to deploy Office ProPlus. The script will generate a configuration.xml file based on the client's current environment. 
+		* **DeployWithConfigurationFile** - A configuration xml file is created and saved in the package share hosting the deployment files. The configuration file is created when Create-CMOfficeDeploymentProgram is ran.
+	* **ScriptName** The name of the script that will be used to deploy Office 365 ProPlus. Default value is **CM-OfficeDeploymentScript.ps1**
 	* **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site. 
-	* **CMPSModulePath** Default value will use the default location.
-	* **ConfigurationXml** Default value is **.\DeploymentFiles\DefaultConfiguration.xml**
-	* **CustomName** Default value combines the channel with the platform.
+	* **CMPSModulePath** Allows the user to specify that full path to the ConfigurationManager.psd1 PowerShell Module. This is especially useful if CM is installed in a non standard path.
+	* **ConfigurationXml** The name and path of the configuration xml file that will be used to deploy Office 365 ProPlus. Default value is **.\DeploymentFiles\DefaultConfiguration.xml**
+	* **CustomName** The name of the program. The default value combines the channel with the platform.
 	
 			Example: Create-CMOfficeDeploymentProgram -Channels Deferred,FirstReleaseDeferred -Bitness v32 -DeploymentType DeployWithConfigurationFile -SiteCode S01
 
@@ -226,7 +228,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	The available parameters with the function are as follows.
 	* **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
 	* **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
-	* **CMPSModulePath** Default value will use the default location.
+	* **CMPSModulePath** Allows the user to specify that full path to the ConfigurationManager.psd1 PowerShell Module. This is especially useful if CM is installed in a non standard path.
 
 			Example: Create-CMOfficeChannelChangeProgram -Channels Deferred -SiteCode S01
 			
@@ -236,7 +238,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	
 	The available parameters with the function are as follows.
 	* **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
-	* **CMPSModulePath** Default value will use the default location.
+	* **CMPSModulePath** Allows the user to specify that full path to the ConfigurationManager.psd1 PowerShell Module. This is especially useful if CM is installed in a non standard path.
 
 			Example: Create-CMOfficeRollBackProgram
 			
@@ -247,15 +249,14 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	The available parameters with the function are as follows.
 	* **WaitForUpdateToFinish** The PowerShell window will remain open until the update has finished. Default value is $true.
 	* **EnableUpdateAnywhere** The failback method if the update path is unavailable the client will update from the CDN. Default value is $true.
-	* **ForceAppShutdown** Default value is $false.
-	* **UpdatePromptUser** Default value is $false.
-	* **DisplayLevel** Default value is $false.
-	* **UpdateToVersion** The version to update to. Default value will update to the latest version in the update path.
+	* **ForceAppShutdown** If set to $true Office application will shut down automatically before Office 365 ProPlus is installed. Default value is $false.
+	* **UpdatePromptUser** If set to $true the user logged in to the target computer will be prompted to run the installation. Default value is $false.
+	* **DisplayLevel** If set to $true the progress window will displayed while Office ProPlus is installed. Default value is $false.
+	* **UpdateToVersion** The target version of Office. Default value will update to the latest version in the update path.
 	* **LogPath** The path to the LogName.
-	* **LogName** The name of the log files.
-	* **ValidateUpdateSourceFiles** Default value is $true.
+	* **LogName** The name of the log file.
 	* **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
-	* **CMPSModulePath** Default value will use the default location.
+	* **CMPSModulePath** Allows the user to specify that full path to the ConfigurationManager.psd1 PowerShell Module. This is especially useful if CM is installed in a non standard path.
 	* **UseScriptLocationAsUpdateSource** If not specified the location where the script is ran will be assumed the location of the SourceFiles. Default value is $true.
 
 			Example: Create-CMOfficeUpdateProgram -WaitForUpdateToFinish $true -EnableUpdateAnywhere $true -ForceAppShutdown $true -SiteCode S01
@@ -267,19 +268,18 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	The available parameters with the function are as follows.
 	* **WaitForUpdateToFinish** The PowerShell window will remain open until the update has finished. Default value is $true.
 	* **EnableUpdateAnywhere** The failback method if the update path is unavailable the client will update from the CDN. Default value is $true.
-	* **ForceAppShutdown** Default value is $false.
-	* **UpdatePromptUser** Default value is $false.
-	* **DisplayLevel** Default value is $false.
-	* **UpdateToVersion** The version to update to. Default value will update to the latest version in the update path.
+	* **ForceAppShutdown** If set to $true Office application will shut down automatically before Office 365 ProPlus is installed. Default value is $false.
+	* **UpdatePromptUser** If set to $true the user logged in to the target computer will be prompted to run the installation. Default value is $false.
+	* **DisplayLevel** If set to $true the progress window will displayed while Office ProPlus is installed. Default value is $false.
+	* **UpdateToVersion** The target version of Office. Default value will update to the latest version in the update path.
 	* **UseRandomStartTime** Default value is $true.
 	* **RandomTimeStart** Default value is 08:00.
 	* **RandomTimeEnd** Default value is 17:00.
 	* **StartTime** Default value 12:00.
 	* **LogPath** The path to the LogName.
 	* **LogName** The name of the log files.
-	* **ValidateUpdateSourceFiles** Default value is $true.
 	* **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
-	* **CMPSModulePath** Default value will use the default location.
+	* **CMPSModulePath** Allows the user to specify that full path to the ConfigurationManager.psd1 PowerShell Module. This is especially useful if CM is installed in a non standard path.
 	* **UseScriptLocationAsUpdateSource** If not specified the location where the script is ran will be assumed the location of the SourceFiles. Default value is $true.
 
 			Example: Create-CMOfficeUpdateAsTaskProgram -WaitForUpdateToFinish $false -EnableUpdateAnywhere $false -ForceAppShutdown $true -UpdatePromptUser $true -UpdateToVersion 16.0.6001.1078
@@ -292,9 +292,8 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* **Channels** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
 	* **DistributionPoint** The distribution point name. A distribution point or distirbution point group must be specified.
 	* **DistributionPointGroupName** The distribution point group name. A distribution point or distirbution point group must be specified.
-	* **DeploymentExpiryDurationInDays** Default value is 15.
 	* **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
-	* **CMPSModulePath** Default value will use the default location.
+	* **CMPSModulePath** Allows the user to specify that full path to the ConfigurationManager.psd1 PowerShell Module. This is especially useful if CM is installed in a non standard path.
 
 			Example: Distribute-CMOfficePackage -Channels Deferred -DistributionPoint cm.contoso.com
 			
@@ -308,8 +307,18 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	* **Channel** The available options are **Current, Deferred, FirstReleaseDeferred, FirstReleaseCurrent**
 	* **Bitness** Available options are **v32, v64, Both**. Default value is Both.
 	* **SiteCode** Three digit site code, example **S01**. Left blank it will default to the current site.
-	* **CMPSModulePath** Default value will use the default location.
-	* **DeploymentPurpose** Default value is Required. Available options are **Default,Required,Available**
+	* **CMPSModulePath** Allows the user to specify that full path to the ConfigurationManager.psd1 PowerShell Module. This is especially useful if CM is installed in a non standard path.
+	* **DeploymentPurpose** Available options are **Default,Required,Available**. The default value is Default. 
+		* **Default** - The default values for each program are below:
+			* **DeployWithScript** - Required
+			* **DeployWithConfigurationFile** - Required
+			* **ChangeChannel** - Available
+			* **RollBack** - Available
+			* **UpdateWithConfigMgr** - Required
+			* **UpdateWithTask** - Required
+		* **Required** - The program will install automatically to the clients in the target collection.
+		* **Available** - The program will be available in the System Center Software Center. The users in the target collection can initiate the installation manually.
+		
 	* **CustomName** Default value combines the channel with the platform.
 
 			Example: Deploy-CMOfficeProgram -Collection 'Human Resources' -ProgramType DeployWithConfigurationFile -Channel Deferred -Bitness v32 -SiteCode S01 -DeploymentPurpose Available
