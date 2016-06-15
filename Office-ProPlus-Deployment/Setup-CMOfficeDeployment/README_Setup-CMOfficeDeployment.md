@@ -41,15 +41,15 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 		Download-CMOOfficeChannelFiles -Channels FirstReleaseDeferred -Bitness v32 -OfficeFilesPath D:\OfficeChannels
 		
-		The FirstReleaseDeferred 32 bit channel files will be downloaded to D:\OfficeChannels.
+	* The FirstReleaseDeferred 32 bit channel files will be downloaded to D:\OfficeChannels.
 
 2. Create the Office 365 ProPlus package.
 
 		Create-CMOfficePackage -Channels Deferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true -SiteCode S01 -Bitness v32
 		
-		A package will be created called Office 365 ProPlus. The source files will be moved from D:\OfficeChannels to a new folder called OfficeDeployment$.
+	* A package will be created called Office 365 ProPlus. The source files will be moved from D:\OfficeChannels to a new folder called OfficeDeployment$.
 		
-		Note - You do not need to create the Office 365 ProPlus package if it already exists.
+	**Note** - You do not need to create the Office 365 ProPlus package if it already exists.
 		
 3. Create the channel change program.
 
@@ -59,7 +59,7 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 	
 		Update-CMOfficePackage -Channels FirstReleaseDeferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true
 
-		The FirstReleaseDeferred channel files will be moved to OfficeDeployment$ and the cm.contoso.com distribution point will be updated.
+	* The FirstReleaseDeferred channel files will be moved to OfficeDeployment$ and the cm.contoso.com distribution point will be updated.
 
 5. Create a deployment.
 
@@ -75,9 +75,9 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 		Create-CMOfficePackage -Channels Deferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true -SiteCode S01 -Bitness v32
 		
-		A package will be created called Office 365 ProPlus. The source files will be moved from D:\OfficeChannels to a new folder called OfficeDeployment$.
+	* A package will be created called Office 365 ProPlus. The source files will be moved from D:\OfficeChannels to a new folder called OfficeDeployment$.
 		
-		Note - You do not need to create the Office 365 ProPlus package if it already exists.
+	**Note** - You do not need to create the Office 365 ProPlus package if it already exists.
 
 3. Create the rollback program.
 
@@ -101,9 +101,9 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 		Create-CMOfficePackage -Channels Deferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true -SiteCode S01 -Bitness v32
 		
-		A package will be created called Office 365 ProPlus. The source files will be moved from D:\OfficeChannels to a new folder called OfficeDeployment$.
+	* A package will be created called Office 365 ProPlus. The source files will be moved from D:\OfficeChannels to a new folder called OfficeDeployment$.
 		
-		Note - You do not need to create the Office 365 ProPlus package if it already exists.
+	**Note** - You do not need to create the Office 365 ProPlus package if it already exists.
 
 3. Create the update program.
 
@@ -127,9 +127,9 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 		Create-CMOfficePackage -Channels Deferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true -SiteCode S01 -Bitness v32
 		
-		A package will be created called Office 365 ProPlus. The source files will be moved from D:\OfficeChannels to a new folder called OfficeDeployment$.
+	* A package will be created called Office 365 ProPlus. The source files will be moved from D:\OfficeChannels to a new folder called OfficeDeployment$.
 		
-		Note - You do not need to create the Office 365 ProPlus package if it already exists.
+	**Note** - You do not need to create the Office 365 ProPlus package if it already exists.
 
 3. Create-CMOfficeUpdateAsTaskProgram
 
