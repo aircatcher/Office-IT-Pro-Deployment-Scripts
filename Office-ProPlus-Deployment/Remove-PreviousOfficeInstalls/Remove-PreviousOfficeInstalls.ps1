@@ -351,11 +351,11 @@ Function Remove-PreviousOfficeInstalls{
       Write-Host "Removing Office products..."
 
       if (Test-Path -Path $ActionFile) {
-          wscript $ActionFile
+          cscript $ActionFile
 
           Do{
             Start-Sleep -Seconds 5
-            $cscriptProcess = Get-Process wscript -ErrorAction SilentlyContinue
+            $cscriptProcess = Get-Process cscript -ErrorAction SilentlyContinue
           }
           Until($cscriptProcess -eq $null)
 
