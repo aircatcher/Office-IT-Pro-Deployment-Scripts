@@ -827,15 +827,21 @@ function getOfficeConfig() {
         } else {
             if ($mainOfficeProduct) 
             {
-               if ($mainOfficeProduct.Bitness.ToLower() -eq "32-bit") {
-                  $mainOfficeProduct.Bitness = "32"
+               if ($mainOfficeProduct -is [System.Array]) {
+                 $firstProduct = $mainOfficeProduct[0]
+               } else{
+                 $firstProduct = $mainOfficeProduct
+               }
+               
+               if ($firstProduct.Bitness.ToLower() -eq "32-bit") {
+                  $firstProduct.Bitness = "32"
                } else {
-                  $mainOfficeProduct.Bitness = "64"
+                  $firstProduct.Bitness = "64"
                }
 
-               $productBitness = $mainOfficeProduct.Bitness
-               $productDisplayName = $mainOfficeProduct.DisplayName
-               $productVersion = $mainOfficeProduct.Version
+               $productBitness = $firstProduct.Bitness
+               $productDisplayName = $firstProduct.DisplayName
+               $productVersion = $firstProduct.Version
             }
         }
 
@@ -1158,7 +1164,7 @@ function officeGetExcludedApps() {
         $HKLM = [UInt32] "0x80000002"
         $HKCR = [UInt32] "0x80000000"
 
-        $allExcludeApps = 'Access','Excel','Groove','InfoPath','OneDrive','OneNote','Outlook',
+        $allExcludeApps = 'Access','Excel','Groove','InfoPath','OneNote','Outlook',
                        'PowerPoint','Publisher','Word'
 
         if ($Credentials) {
@@ -1369,7 +1375,9 @@ function odtAddProduct() {
     }
 
     if ($Version) {
-       $AddElement.SetAttribute("Version", $Version) | Out-Null
+       if ($Version.StartsWith("16.")) {
+          $AddElement.SetAttribute("Version", $Version) | Out-Null
+       }
     }
 
     if ($Platform) {
