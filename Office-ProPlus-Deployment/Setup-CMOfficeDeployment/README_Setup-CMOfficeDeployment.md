@@ -10,31 +10,31 @@ This PowerShell function automates the setup of Office 365 Click-To-Run deployme
 
 		Download-CMOOfficeChannelFiles -Channels Deferred -Bitness v32 -OfficeFilesPath D:\OfficeChannels
 		
-		The Deferred channel 32 bit files will be downloaded to D:\OfficeChannels.
+	* The Deferred channel 32 bit files will be downloaded to D:\OfficeChannels.
 
 2. Create the Office 365 ProPlus package.
 
 		Create-CMOfficePackage -Channels Deferred -OfficeSourceFilesPath D:\OfficeChannels -MoveSourceFiles $true -SiteCode S01 -Bitness v32
 		
-		A package will be created called Office 365 ProPlus. The source files will be moved from D:\OfficeChannels to a new folder called OfficeDeployment$.
+	* A package will be created called Office 365 ProPlus. The source files will be moved from D:\OfficeChannels to a new folder called OfficeDeployment$.
 
 3. Create the deployment program.
  
 		Create-CMOfficeDeploymentProgram -Channels Deferred -Bitness v32 -DeploymentType DeployWithConfigurationFile -SiteCode S01
 		
-		A program called "Deploy Deferred Channel with Config File - 32-Bit" will be created.
+	* A program called "Deploy Deferred Channel with Config File - 32-Bit" will be created.
 
 4. Distribute the package to the distribution point.
  
 		Distribute-CMOfficePackage -Channels Deferred -DistributionPoint cm.contoso.com
 		
-		The files in the OfficeDeployment$ folder will be distributed to the distribution point called cm.contoso.com.
+	* The files in the OfficeDeployment$ folder will be distributed to the distribution point called cm.contoso.com.
 
 5. Deploy the program to the collection.
  
 		Deploy-CMOfficeProgram -Collection 'Human Resources' -Channel Deferred -Bitness v32 -SiteCode S01 -DeploymentPurpose Available
 		
-		A deployment will be created and made available to the collection 'Human Resources' that will install the "Deploy Deferred Channel with Config File - 32-Bit" program.
+	* A deployment will be created and made available to the collection 'Human Resources' that will install the "Deploy Deferred Channel with Config File - 32-Bit" program.
 
 ###Change the channel of an Office 365 client.
 1. Download the channel files from the CDN.
