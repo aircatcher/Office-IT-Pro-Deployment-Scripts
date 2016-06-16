@@ -157,7 +157,19 @@ Function SetODTAdd{
         [string] $SourcePath = $NULL,
 
         [Parameter(ValueFromPipelineByPropertyName=$true)]
-        [string] $TargetFilePath
+        [string] $Version,
+
+        [Parameter(ValueFromPipelineByPropertyName=$true)]
+        [string] $Bitness,
+
+        [Parameter(ValueFromPipelineByPropertyName=$true)]
+        [string] $TargetFilePath,
+
+        [Parameter(ValueFromPipelineByPropertyName=$true)]
+        [Microsoft.Office.Branches] $Branch,
+
+        [Parameter(ValueFromPipelineByPropertyName=$true)]
+        [Microsoft.Office.Channel] $Channel = "Current"
 
     )
 
@@ -168,7 +180,12 @@ Function SetODTAdd{
         [System.XML.XMLDocument]$ConfigFile = New-Object System.XML.XMLDocument
 
         if ($TargetFilePath) {
-           $ConfigFile.Load($TargetFilePath) | Out-Null
+           if (!(Test-Path $TargetFilePath)) {
+              $TargetFilePath = GetScriptRoot + "\" + $TargetFilePath
+           }
+        
+           $content = Get-Content $TargetFilePath
+           $ConfigFile.LoadXml($content) | Out-Null
         } else {
             if ($ConfigurationXml) 
             {
@@ -192,12 +209,41 @@ Function SetODTAdd{
         }
 
         #Set values as desired
+        if($Branch -ne $null -and $Channel -eq $null){
+            $Channel = ConvertBranchNameToChannelName -BranchName $Branch
+        }
 
-        if([string]::IsNullOrWhiteSpace($SourcePath) -eq $false){
+        if($ConfigFile.Configuration.Add -ne $null){
+            if($ConfigFile.Configuration.Add.Branch -ne $null){
+                $ConfigFile.Configuration.Add.RemoveAttribute("Branch")
+            }
+        }
+
+        if($Channel -ne $null){
+            $ConfigFile.Configuration.Add.SetAttribute("Channel", $Channel);
+        }
+
+        if($SourcePath){
             $ConfigFile.Configuration.Add.SetAttribute("SourcePath", $SourcePath) | Out-Null
         } else {
             if ($PSBoundParameters.ContainsKey('SourcePath')) {
                 $ConfigFile.Configuration.Add.RemoveAttribute("SourcePath")
+            }
+        }
+
+        if($Version){
+            $ConfigFile.Configuration.Add.SetAttribute("Version", $Version) | Out-Null
+        } else {
+            if ($PSBoundParameters.ContainsKey('Version')) {
+                $ConfigFile.Configuration.Add.RemoveAttribute("Version")
+            }
+        }
+
+        if($Bitness){
+            $ConfigFile.Configuration.Add.SetAttribute("OfficeClientEdition", $Bitness) | Out-Null
+        } else {
+            if ($PSBoundParameters.ContainsKey('OfficeClientEdition')) {
+                $ConfigFile.Configuration.Add.RemoveAttribute("OfficeClientEdition")
             }
         }
 
