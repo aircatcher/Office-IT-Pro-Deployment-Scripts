@@ -1,5 +1,6 @@
 $enum3 = "
 using System;
+
 namespace Microsoft.Office
 {
     [FlagsAttribute]
@@ -7,22 +8,29 @@ namespace Microsoft.Office
     {
         Current=0,
         Business=1,
-        Validation=2
+        Validation=2,
+        FirstReleaseCurrent=3,
+        FirstReleaseBusiness=4
     }
 }
 "
+try {
 Add-Type -TypeDefinition $enum3 -ErrorAction SilentlyContinue
+} catch {}
 
 $enum4 = "
 using System;
+
 namespace Microsoft.Office
 {
     [FlagsAttribute]
     public enum Channel
     {
-        Current=0,
-        Deferred=1,
-        Validation=2
+         Current=0,
+         Deferred=1,
+         Validation=2,
+         FirstReleaseCurrent=3,
+         FirstReleaseDeferred=4
     }
 }
 "
@@ -124,7 +132,7 @@ Will Dynamically set the Update Source based a list Provided
             }          
      }
      if ($SourceValue) {
-        Set-ODTAdd -TargetFilePath $TargetFilePath -SourcePath $SourceValue
+        SetODTAdd -TargetFilePath $TargetFilePath -SourcePath $SourceValue
         if($IncludeUpdatePath){
             Set-ODTUpdates -TargetFilePath $TargetFilePath -UpdatePath $SourceValue
         }
@@ -138,59 +146,10 @@ Will Dynamically set the Update Source based a list Provided
         } 
      }
 
-
-
     }
 }
 
-Function Set-ODTAdd{
-<#
-.SYNOPSIS
-Modifies an existing configuration xml file's add section
-.PARAMETER SourcePath
-Optional.
-The SourcePath value can be set to a network, local, or HTTP path that contains a 
-Click-to-Run source. Environment variables can be used for network or local paths.
-SourcePath indicates the location to save the Click-to-Run installation source 
-when you run the Office Deployment Tool in download mode.
-SourcePath indicates the installation source path from which to install Office 
-when you run the Office Deployment Tool in configure mode. If you don’t specify 
-SourcePath in configure mode, Setup will look in the current folder for the Office 
-source files. If the Office source files aren’t found in the current folder, Setup 
-will look on Office 365 for them.
-SourcePath specifies the path of the Click-to-Run Office source from which the 
-App-V package will be made when you run the Office Deployment Tool in packager mode.
-If you do not specify SourcePath, Setup will attempt to create an \Office\Data\... 
-folder structure in the working directory from which you are running setup.exe.
-.PARAMETER Version
-Optional. If a Version value is not set, the Click-to-Run product installation streams 
-the latest available version from the source. The default is to use the most recently 
-advertised build (as defined in v32.CAB or v64.CAB at the Click-to-Run Office installation source).
-Version can be set to an Office 2013 build number by using this format: X.X.X.X
-.PARAMETER Bitness
-Required. Specifies the edition of Click-to-Run for Office 365 product to use: 32- or 64-bit.
-.PARAMETER TargetFilePath
-Full file path for the file to be modified and be output to.
-.PARAMETER Branch
-Optional. Depricated as of 2-29-16 and replaced by Channel. Specifies the update branch for the product that you want to download or install.
-.PARAMETER Channel
-Optional. Specifies the update Channel for the product that you want to download or install.
-.Example
-Set-ODTAdd -SourcePath "C:\Preload\Office" -TargetFilePath "$env:Public/Documents/config.xml"
-Sets config SourcePath property of the add element to C:\Preload\Office
-.Example
-Set-ODTAdd -SourcePath "C:\Preload\Office" -Version "15.1.2.3" -TargetFilePath "$env:Public/Documents/config.xml"
-Sets config SourcePath property of the add element to C:\Preload\Office and version to 15.1.2.3
-.Notes
-Here is what the portion of configuration file looks like when modified by this function:
-<Configuration>
-  ...
-  <Add SourcePath="\\server\share\" Version="15.1.2.3" OfficeClientEdition="32"> 
-      ...
-  </Add>
-  ...
-</Configuration>
-#>
+Function SetODTAdd{
     Param(
 
         [Parameter(ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true, Position=0)]
@@ -212,20 +171,23 @@ Here is what the portion of configuration file looks like when modified by this 
         [Microsoft.Office.Branches] $Branch,
 
         [Parameter(ValueFromPipelineByPropertyName=$true)]
-        [Microsoft.Office.Channel] $Channel
+        [Microsoft.Office.Channel] $Channel = "Current"
 
     )
 
     Process{
         $TargetFilePath = GetFilePath -TargetFilePath $TargetFilePath
 
-
-
         #Load file
         [System.XML.XMLDocument]$ConfigFile = New-Object System.XML.XMLDocument
 
         if ($TargetFilePath) {
-           $ConfigFile.Load($TargetFilePath) | Out-Null
+           if (!(Test-Path $TargetFilePath)) {
+              $TargetFilePath = GetScriptRoot + "\" + $TargetFilePath
+           }
+        
+           $content = Get-Content $TargetFilePath
+           $ConfigFile.LoadXml($content) | Out-Null
         } else {
             if ($ConfigurationXml) 
             {
@@ -249,8 +211,21 @@ Here is what the portion of configuration file looks like when modified by this 
         }
 
         #Set values as desired
+        if($Branch -ne $null -and $Channel -eq $null){
+            $Channel = ConvertBranchNameToChannelName -BranchName $Branch
+        }
 
-        if([string]::IsNullOrWhiteSpace($SourcePath) -eq $false){
+        if($ConfigFile.Configuration.Add -ne $null){
+            if($ConfigFile.Configuration.Add.Branch -ne $null){
+                $ConfigFile.Configuration.Add.RemoveAttribute("Branch")
+            }
+        }
+
+        if($Channel -ne $null){
+            $ConfigFile.Configuration.Add.SetAttribute("Channel", $Channel);
+        }
+
+        if($SourcePath){
             $ConfigFile.Configuration.Add.SetAttribute("SourcePath", $SourcePath) | Out-Null
         } else {
             if ($PSBoundParameters.ContainsKey('SourcePath')) {
@@ -258,14 +233,7 @@ Here is what the portion of configuration file looks like when modified by this 
             }
         }
 
-        <#
-        if($Branch -ne $null){
-            $ConfigFile.Configuration.Add.SetAttribute("Branch", $Branch);
-        }
-
-        
-
-        if([string]::IsNullOrWhiteSpace($Version) -eq $false){
+        if($Version){
             $ConfigFile.Configuration.Add.SetAttribute("Version", $Version) | Out-Null
         } else {
             if ($PSBoundParameters.ContainsKey('Version')) {
@@ -273,15 +241,13 @@ Here is what the portion of configuration file looks like when modified by this 
             }
         }
 
-        if([string]::IsNullOrWhiteSpace($Bitness) -eq $false){
+        if($Bitness){
             $ConfigFile.Configuration.Add.SetAttribute("OfficeClientEdition", $Bitness) | Out-Null
         } else {
             if ($PSBoundParameters.ContainsKey('OfficeClientEdition')) {
                 $ConfigFile.Configuration.Add.RemoveAttribute("OfficeClientEdition")
             }
         }
-
-        #>
 
         $ConfigFile.Save($TargetFilePath) | Out-Null
         $global:saveLastFilePath = $TargetFilePath
@@ -574,8 +540,8 @@ Function GetScriptPath() {
      if ($PSScriptRoot) {
        $scriptPath = $PSScriptRoot
      } else {
-       #$scriptPath = (Split-Path $MyInvocation.MyCommand.Path) + "\"
-       $scriptPath = (Get-Location).Path
+       $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+       $scriptPath = (Get-Item -Path ".\").FullName
      }
 
      return $scriptPath

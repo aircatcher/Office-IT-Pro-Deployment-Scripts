@@ -14,27 +14,29 @@ namespace Microsoft.Office
     }
 }
 "
-Add-Type -TypeDefinition $enum3 -ErrorAction SilentlyContinue
+try {
+ Add-Type -TypeDefinition $enum3 -ErrorAction SilentlyContinue
+} catch {}
 
 $enum4 = "
- using System;
+using System;
  
- namespace Microsoft.Office
- {
-     [FlagsAttribute]
-     public enum Channel
-     {
-         Current=0,
-         Deferred=1,
-         Validation=2,
-         FirstReleaseCurrent=3,
-         FirstReleaseDeferred=4
-     }
- }
- "
- try {
+namespace Microsoft.Office
+{
+    [FlagsAttribute]
+    public enum Channel
+    {
+        Current=0,
+        Deferred=1,
+        Validation=2,
+        FirstReleaseCurrent=3,
+        FirstReleaseDeferred=4
+    }
+}
+"
+try {
  Add-Type -TypeDefinition $enum4 -ErrorAction SilentlyContinue
- } catch {}
+} catch {}
 
 
 Function Dynamic-UpdateSource {
@@ -355,6 +357,54 @@ Function SetODTUpdates{
 
 }
 
+Function Get-ODTAdd{
+<#
+.SYNOPSIS
+Gets the value of the Add section in the configuration file
+.PARAMETER TargetFilePath
+Required. Full file path for the file.
+.Example
+Get-ODTAdd -TargetFilePath "$env:Public\Documents\config.xml"
+Returns the value of the Add section if it exists in the specified
+file. 
+#>
+    Param(
+
+        [Parameter(ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true, Position=0)]
+        [string] $ConfigurationXML = $NULL,
+
+        [Parameter(ValueFromPipelineByPropertyName=$true)]
+        [string] $TargetFilePath
+
+    )
+
+    Process{
+        $TargetFilePath = GetFilePath -TargetFilePath $TargetFilePath
+
+        #Load the file
+        [System.XML.XMLDocument]$ConfigFile = New-Object System.XML.XMLDocument
+
+        if ($TargetFilePath) {
+           $ConfigFile.Load($TargetFilePath) | Out-Null
+        } else {
+            if ($ConfigurationXml) 
+            {
+              $ConfigFile.LoadXml($ConfigurationXml) | Out-Null
+              $global:saveLastConfigFile = $NULL
+              $global:saveLastFilePath = $NULL
+            }
+        }
+
+        #Check that the file is properly formatted
+        if($ConfigFile.Configuration -eq $null){
+            throw $NoConfigurationElement
+        }
+        
+        $ConfigFile.Configuration.GetElementsByTagName("Add") | Select OfficeClientEdition, SourcePath, Version, Branch
+    }
+
+}
+
 Function GetFilePath() {
     Param(
        [Parameter(ValueFromPipelineByPropertyName=$true)]
@@ -393,8 +443,8 @@ Function GetScriptPath() {
      if ($PSScriptRoot) {
        $scriptPath = $PSScriptRoot
      } else {
-       #$scriptPath = (Split-Path $MyInvocation.MyCommand.Path) + "\"
-       $scriptPath = (Get-Location).Path
+       $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+       $scriptPath = (Get-Item -Path ".\").FullName
      }
 
      return $scriptPath
