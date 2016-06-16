@@ -11,3 +11,15 @@ C:\Users\Abaker\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deploy
 C:\Users\Abaker\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\obj\Debug\SelfServiceInstaller.exe
 C:\Users\Abaker\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\obj\Debug\SelfServiceInstaller.pdb
 D:\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\bin\Debug\SelfServiceInstaller.exe.config
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\bin\Debug\SelfServiceInstaller.exe.config
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\bin\Debug\SelfServiceInstaller.exe.manifest
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\bin\Debug\SelfServiceInstaller.application
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\bin\Debug\SelfServiceInstaller.exe
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\bin\Debug\SelfServiceInstaller.pdb
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\obj\Debug\OfficeProPlusSelfServiceInstaller.csprojResolveAssemblyReference.cache
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\obj\Debug\SelfServiceInstaller.Properties.Resources.resources
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\obj\Debug\OfficeProPlusSelfServiceInstaller.csproj.GenerateResource.Cache
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\obj\Debug\SelfServiceInstaller.exe.manifest
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\obj\Debug\SelfServiceInstaller.application
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\obj\Debug\SelfServiceInstaller.exe
+C:\Users\jojones\Documents\Office-IT-Pro-Deployment-Scripts\Office-ProPlus-Deployment\SelfServiceWebDeployment\ODT_Launcher\obj\Debug\SelfServiceInstaller.pdb
